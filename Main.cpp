@@ -1,0 +1,159 @@
+#include <iostream>
+#include <memory>
+#include <string>
+#include <unordered_map>
+
+using namespace std;
+
+struct entry_type
+{
+	double price;
+	size_t quantity;
+};
+
+class Item
+{
+public:
+	Item()
+		: m_numBought(0), m_numSold(0), m_avgPurchasePrice(0.0), m_avgSalesPrice(0.0) {}
+	
+	void buy(const size_t quantity, const double price)
+	{
+		updateAverage(quantity, price, m_numBought, m_avgPurchasePrice);
+		m_numBought += quantity;
+	}
+
+	void sell(const size_t quantity, const double price)
+	{
+		updateAverage(quantity, price, m_numSold, m_avgSalesPrice);
+		m_numSold += quantity;
+	}
+
+	int numAvailable() const
+	{
+		return static_cast<int>(m_numBought) - static_cast<int>(m_numSold);
+	}
+
+	size_t numBought() const
+	{
+		return m_numBought;
+	}
+
+	size_t numSold() const
+	{
+		return m_numSold;
+	}
+
+	double avgPurchasePrice() const
+	{
+		return m_avgPurchasePrice;
+	}
+
+	double avgSalesPrice() const
+	{
+		return m_avgSalesPrice;
+	}
+
+	double profit() const
+	{
+		return (m_numSold * m_avgSalesPrice - m_numBought * m_avgPurchasePrice);
+	}
+
+	double unsoldCost() const
+	{
+		return (this->numAvailable() * m_avgPurchasePrice);
+	}
+
+private:
+	// https://stackoverflow.com/questions/28820904/how-to-efficiently-compute-average-on-the-fly-moving-average
+	void updateAverage(const size_t quantity,
+					   const double val,
+					   const size_t startCount,
+					   double& currAvgRef) const
+	{
+		const size_t totalCount = startCount + quantity;
+		for (size_t count = startCount; count < totalCount; ++count) {
+			currAvgRef += (val - currAvgRef) / (count + 1);
+		}
+	}
+
+	size_t m_numBought;
+	size_t m_numSold;
+	double m_avgPurchasePrice;
+	double m_avgSalesPrice;
+};
+
+class Inventory
+{
+public:
+	Inventory() : m_inventory()
+	{
+	}
+	
+	void receive(const string& sku, const size_t quantity, const float price)
+	{
+		if (m_inventory.count(sku) == 0) {
+			m_inventory.emplace(sku, Item());
+		}
+		m_inventory[sku].buy(quantity, price);
+	}
+
+	void sell(const string& sku, const size_t requestedQty, const float price)
+	{
+		if (m_inventory.count(sku) == 0 || m_inventory[sku].numAvailable() <= 0) {
+			cout << "No inventory available of SKU " << sku << " to sell." << endl;
+			return;
+		}
+
+		size_t soldQty;
+		if (m_inventory[sku].numAvailable() < requestedQty) {
+			// TODO: check for negative numAvailable
+			soldQty = m_inventory[sku].numAvailable();
+			cout << "Insufficient inventory available of SKU " << sku <<
+				" for requested amount " << requestedQty << ". Selling " <<
+				soldQty << " instead." << endl;
+		}
+		else {
+			soldQty = requestedQty;
+		}
+		m_inventory[sku].sell(soldQty, price);
+	}
+
+	void report()
+	{
+		for (const auto& [key, item] : m_inventory) {
+			cout << item.numSold() << " boxes of " << key << " have been sold" << endl;
+			cout << item.numAvailable() << " boxes of " << key << " are currently in stock" << endl;
+			cout << "Profit on " << key << " is $" << item.profit() << endl;
+			cout << "Unsold stock of " << key << " has a cost of $" << item.unsoldCost() << endl;
+		}
+		/* Include the following:
+		* - amount of each sku sold
+		* - amount of each sku in inventory
+		* - profit on each sku
+		*	+ breakdown by number sold at given sales price (minus average cost)
+		* - unsold inventory's cost
+		*/
+	}
+
+private:
+	unordered_map<string, Item> m_inventory;
+};
+
+int main(int argc, char** argv)
+{
+	Inventory inventory;
+	inventory.receive("CORNFLAKES", 8, 1.0);
+	inventory.receive("CORNFLAKES", 2, 3.5);
+
+	inventory.sell("CORNFLAKES", 2, 2.5);
+	inventory.sell("CORNFLAKES", 4, 3.0);
+
+	inventory.report();
+	return 0;
+}
+
+/* README:
+* - Improvements if had more time:
+*	+ refer to FluentCpp blog on AoS vs SoA
+*/
