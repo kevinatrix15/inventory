@@ -1,0 +1,2 @@
+﻿  ItemRecordTest.cpp
+C:\work\ANSYSDev\source\personal-dev\Inventory\test\ItemRecordTest.cpp\ItemRecordTest.cpp(148,1): fatal error C1010: unexpected end of file while looking for precompiled header. Did you forget to add '#include "pch.h"' to your source?
