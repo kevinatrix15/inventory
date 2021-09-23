@@ -50,6 +50,7 @@ class ItemRecord
 
   double profit() const
   {
+      // TODO: this is incorrect...
     return m_numSold * (m_avgSalesPrice - m_avgPurchasePrice);
   }
 

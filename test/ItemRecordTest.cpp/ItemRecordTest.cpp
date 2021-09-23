@@ -12,8 +12,8 @@ TEST(ItemRecordTest, SinglePurchaseTest)
   record.buy(quantity, price);
 
   // assert
-  ASSERT_EQ(quantity, record.numBought());
-  ASSERT_EQ(price, record.avgPurchasePrice());
+  EXPECT_EQ(quantity, record.numBought());
+  EXPECT_EQ(price, record.avgPurchasePrice());
 }
 
 TEST(ItemRecordTest, MultiPurchaseTest)
@@ -26,9 +26,9 @@ TEST(ItemRecordTest, MultiPurchaseTest)
   record.buy(3, 3.0);
 
   // assert
-  ASSERT_EQ(7, record.numBought());
+  EXPECT_EQ(8, record.numBought());
   // (5 * 2.0 + 3 * 3.0) / 8 = 2.375
-  ASSERT_EQ(2.375, record.avgPurchasePrice());
+  EXPECT_EQ(2.375, record.avgPurchasePrice());
 }
 
 TEST(ItemRecordTest, SingleSellTest)
@@ -42,8 +42,8 @@ TEST(ItemRecordTest, SingleSellTest)
   record.sell(quantity, price);
 
   // assert
-  ASSERT_EQ(quantity, record.numSold());
-  ASSERT_EQ(price, record.avgSalesPrice());
+  EXPECT_EQ(quantity, record.numSold());
+  EXPECT_EQ(price, record.avgSalesPrice());
 }
 
 TEST(ItemRecordTest, MultiSellTest)
@@ -56,9 +56,9 @@ TEST(ItemRecordTest, MultiSellTest)
   record.sell(3, 3.0);
 
   // assert
-  ASSERT_EQ(7, record.numBought());
+  EXPECT_EQ(8, record.numSold());
   // (5 * 2.0 + 3 * 3.0) / 8 = 2.375
-  ASSERT_EQ(2.375, record.avgSalesPrice());
+  EXPECT_EQ(2.375, record.avgSalesPrice());
 }
 
 TEST(ItemRecordTest, SingleBuySellPositiveProfitTest)
@@ -71,10 +71,10 @@ TEST(ItemRecordTest, SingleBuySellPositiveProfitTest)
   record.sell(4, 3.0);
 
   // assert
-  ASSERT_EQ(2.0, record.profit());
-  ASSERT_EQ(1, record.numAvailable());
+  EXPECT_EQ(2.0, record.profit());
+  EXPECT_EQ(1, record.numAvailable());
   // 1 remaining, bought at $2.00
-  ASSERT_EQ(2.0, record.unsoldCost());
+  EXPECT_EQ(2.0, record.unsoldCost());
 }
 
 // NOTE: this class doesn't enforce business logic of preventing negative
@@ -89,8 +89,9 @@ TEST(ItemRecordTest, SingleBuySellNegativeProfitTest)
   record.sell(5, 2.0);
 
   // assert
-  ASSERT_EQ(-2.0, record.profit());
-  ASSERT_EQ(-1, record.numAvailable());
+  // TODO: Decide what to do with this case of negative profit...
+  EXPECT_EQ(-2.0, record.profit());
+  EXPECT_EQ(-1, record.numAvailable());
 }
 
 TEST(ItemRecordTest, MultipleBuySellTest)
@@ -107,9 +108,9 @@ TEST(ItemRecordTest, MultipleBuySellTest)
 
   // assert
   // (5 * 2.0 + 3 * 3.0) / 8 = 2.375
-  ASSERT_EQ(2.375, record.avgPurchasePrice());
+  EXPECT_EQ(2.375, record.avgPurchasePrice());
   // (4 * 4.25 + 2 * 3.5) / 6 = 4.0
-  ASSERT_EQ(4.0, record.avgSalesPrice());
+  EXPECT_DOUBLE_EQ(4.0, record.avgSalesPrice());
 }
 
 /* Key Assumptions:
