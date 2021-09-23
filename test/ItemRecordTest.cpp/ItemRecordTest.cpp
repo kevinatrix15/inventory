@@ -71,7 +71,7 @@ TEST(ItemRecordTest, SingleBuySellPositiveProfitTest)
   record.sell(4, 3.0);
 
   // assert
-  EXPECT_EQ(2.0, record.profit());
+  EXPECT_EQ(4.0, record.profit());
   EXPECT_EQ(1, record.numAvailable());
   // 1 remaining, bought at $2.00
   EXPECT_EQ(2.0, record.unsoldCost());
@@ -111,6 +111,24 @@ TEST(ItemRecordTest, MultipleBuySellTest)
   EXPECT_EQ(2.375, record.avgPurchasePrice());
   // (4 * 4.25 + 2 * 3.5) / 6 = 4.0
   EXPECT_DOUBLE_EQ(4.0, record.avgSalesPrice());
+}
+
+TEST(ItemRecordTest, SampleProblemTest)
+{
+  // arrange
+  ItemRecord record;
+
+  // act
+  record.buy(8, 1.0);
+  record.buy(2, 3.5);
+
+  record.sell(2, 2.5);
+  record.sell(4, 3.0);
+
+  // assert
+  EXPECT_EQ(1.5, record.avgPurchasePrice());
+  EXPECT_DOUBLE_EQ(8.0, record.profit());
+  EXPECT_DOUBLE_EQ(6.0, record.unsoldCost());
 }
 
 /* Key Assumptions:

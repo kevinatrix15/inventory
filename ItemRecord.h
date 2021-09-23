@@ -17,6 +17,7 @@ class ItemRecord
     m_numBought += quantity;
   }
 
+  // TODO: consider preventing sales beyond inventory
   void sell(const size_t quantity, const double price)
   {
     updateAverage(quantity, price, m_numSold, m_avgSalesPrice);
@@ -48,9 +49,9 @@ class ItemRecord
     return m_avgSalesPrice;
   }
 
+  // NOTE: this is based on only the number of items sold, not total inventory
   double profit() const
   {
-      // TODO: this is incorrect...
     return m_numSold * (m_avgSalesPrice - m_avgPurchasePrice);
   }
 

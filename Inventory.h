@@ -34,6 +34,7 @@ class Inventory
     if (m_inventory[sku].numAvailable() < requestedQty) {
       // TODO: check for negative numAvailable
       soldQty = m_inventory[sku].numAvailable();
+      // TODO: use stderr instead
       cout << "Insufficient inventory available of SKU " << sku
            << " for requested amount " << requestedQty << ". Selling "
            << soldQty << " instead." << endl;
