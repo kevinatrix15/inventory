@@ -1,6 +1,11 @@
 #include "../../ItemRecord.h"
 #include "gtest/gtest.h"
 
+#include <exception>
+#include <string>
+
+using namespace std;
+
 TEST(ItemRecordTest, SinglePurchaseTest)
 {
   // arrange
@@ -77,21 +82,35 @@ TEST(ItemRecordTest, SingleBuySellPositiveProfitTest)
   EXPECT_EQ(2.0, record.unsoldCost());
 }
 
-// NOTE: this class doesn't enforce business logic of preventing negative
-// quantity
 TEST(ItemRecordTest, SingleBuySellNegativeProfitTest)
 {
   // arrange
   ItemRecord record;
 
   // act
-  record.buy(4, 3.0);
-  record.sell(5, 2.0);
+  record.buy(5, 3.0);
+  record.sell(4, 2.0);
 
   // assert
-  // TODO: Decide what to do with this case of negative profit...
-  EXPECT_EQ(-2.0, record.profit());
-  EXPECT_EQ(-1, record.numAvailable());
+  EXPECT_EQ(-4.0, record.profit());
+  EXPECT_EQ(1, record.numAvailable());
+  // 1 remaining, bought at $2.00
+  EXPECT_EQ(3.0, record.unsoldCost());
+}
+
+TEST(ItemRecordTest, SingleSellMoreThanAvailableTest)
+{
+  // arrange
+  ItemRecord record;
+
+  // act & assert
+  try {
+    record.buy(4, 3.0);
+    record.sell(5, 2.0);
+  } catch (exception& e) {
+    EXPECT_TRUE(string(e.what()).find("more items than available") !=
+                string::npos);
+  }
 }
 
 TEST(ItemRecordTest, MultipleBuySellTest)

@@ -1,5 +1,7 @@
 #pragma once
 
+#include <exception>
+
 class ItemRecord
 {
   public:
@@ -17,9 +19,12 @@ class ItemRecord
     m_numBought += quantity;
   }
 
-  // TODO: consider preventing sales beyond inventory
   void sell(const size_t quantity, const double price)
   {
+    if (quantity > this->numAvailable()) {
+      throw std::exception("Can not sell more items than available.");
+    }
+
     updateAverage(quantity, price, m_numSold, m_avgSalesPrice);
     m_numSold += quantity;
   }
