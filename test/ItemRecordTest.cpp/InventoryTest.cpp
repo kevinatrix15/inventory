@@ -25,13 +25,11 @@ bool substringFound(const string& str, const string& substr)
   return (str.find(substr) != string::npos);
 }
 
-// NOTE: We don't worry too much about testing the correct values here, as that
-// is tested more thoroughly in the ItemRecordTest
 /**
  * @brief Check that the report contents match the expected contents.
  *
- * NOTE:  We don't worry too much about testing the correct values here, as that
- * is tested more thoroughly in the ItemRecordTest
+ * NOTE:  We don't worry about testing the correct values here, as that is
+ * the responsibility of the ItemRecord class and tested there.
  *
  * @param report The report string.
  * @param sku The SKU.
@@ -51,6 +49,12 @@ void checkReportContents(const string& report,
  * UNIT TESTS ******************************************************************
  ******************************************************************************/
 
+/**
+ * @brief Attempt to process a single receive and sell transaction for a single
+ * SKU in the inventory, and inspect the captured report string. Expect the
+ * report to contain relevant information.
+ * REQ: 1, 2, 3.
+ */
 TEST(InventoryTest, SingleSkuSingleReceiveSellTest)
 {
   // arrange
@@ -71,6 +75,12 @@ TEST(InventoryTest, SingleSkuSingleReceiveSellTest)
   checkReportContents(capturedReport, sku, sold);
 }
 
+/**
+ * @brief Attempt to process multiple receive and sell transaction for a single
+ * SKU in the inventory, and inspect the captured report string. Expect the
+ * report to contain relevant information.
+ * REQ: 1, 2, 3.
+ */
 TEST(InventoryTest, SingleSkuMultipleReceiveSellTest)
 {
   // arrange
@@ -92,6 +102,12 @@ TEST(InventoryTest, SingleSkuMultipleReceiveSellTest)
   checkReportContents(capturedReport, sku, 7);
 }
 
+/**
+ * @brief Attempt to process multiple receive and sell transaction for multiple
+ * SKUs in the inventory, and inspect the captured report string. Expect the
+ * report to contain relevant information for each SKU.
+ * REQ: 1, 2, 3.
+ */
 TEST(InventoryTest, MultipleSkuSingleReceiveSellTest)
 {
   // arrange
@@ -119,6 +135,11 @@ TEST(InventoryTest, MultipleSkuSingleReceiveSellTest)
   checkReportContents(capturedReport, sku2, sold2);
 }
 
+/**
+ * @brief Attempt to process the sell of a SKU that has no prior receipts.
+ * Expect a descriptive error message printed to stderr.
+ * REQ: 2.
+ */
 TEST(InventoryTest, InvalidSellUnknownSkuTest)
 {
   // arrange
@@ -136,6 +157,11 @@ TEST(InventoryTest, InvalidSellUnknownSkuTest)
       substringFound(capturedStderr, "No inventory available of SKU " + sku));
 }
 
+/**
+ * @brief Attempt to process the sell of a SKU that is out of stock. Expect a
+ * descriptive error message printed to stderr.
+ * REQ: 2
+ */
 TEST(InventoryTest, InvalidSellOutOfStockTest)
 {
   // arrange
@@ -159,6 +185,12 @@ TEST(InventoryTest, InvalidSellOutOfStockTest)
       substringFound(capturedStderr, "No inventory available of SKU " + sku));
 }
 
+/**
+ * @brief Attempt to process the sell of a SKU in which the requested quantity
+ * exceeds the available inventory. Expect a descriptive error message printed
+ * to stderr stating that the quantity sold has been reduced.
+ * REQ: 2
+ */
 TEST(InventoryTest, InvalidSellMoreThanAvailableTest)
 {
   // arrange
