@@ -12,6 +12,14 @@ using namespace std;
 
 namespace
 {
+/**
+ * @brief Search a string for a given substring.
+ *
+ * @param str The string to search.
+ * @param substr The substring to search for.
+ *
+ * @return True if found, else false.
+ */
 bool substringFound(const string& str, const string& substr)
 {
   return (str.find(substr) != string::npos);
@@ -19,6 +27,16 @@ bool substringFound(const string& str, const string& substr)
 
 // NOTE: We don't worry too much about testing the correct values here, as that
 // is tested more thoroughly in the ItemRecordTest
+/**
+ * @brief Check that the report contents match the expected contents.
+ *
+ * NOTE:  We don't worry too much about testing the correct values here, as that
+ * is tested more thoroughly in the ItemRecordTest
+ *
+ * @param report The report string.
+ * @param sku The SKU.
+ * @param expectedSold The expected amount reported to be sold.
+ */
 void checkReportContents(const string& report,
                          const string& sku,
                          const size_t expectedSold)
