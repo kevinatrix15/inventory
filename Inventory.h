@@ -76,7 +76,8 @@ class Inventory
   }
 
   /**
-   * @brief Generate a report of the following for each product in the inventory:
+   * @brief Generate a report of the following for each product in the
+   * inventory:
    * // clang-format off
    *  a. number of items sold
    *  b. number of items in stock
