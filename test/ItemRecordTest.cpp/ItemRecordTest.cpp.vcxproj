@@ -72,6 +72,7 @@
       <WarningLevel>Level3</WarningLevel>
       <PrecompiledHeaderOutputFile />
       <LanguageStandard>stdcpp17</LanguageStandard>
+      <AdditionalOptions>/Qvec-report:2</AdditionalOptions>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>

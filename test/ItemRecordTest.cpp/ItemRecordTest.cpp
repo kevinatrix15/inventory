@@ -119,10 +119,10 @@ TEST(ItemRecordTest, SingleBuySellPositiveProfitTest)
   record.sell(4, 3.0);
 
   // assert
-  EXPECT_EQ(4.0, record.profit());
+  EXPECT_DOUBLE_EQ(4.0, record.profit());
   EXPECT_EQ(1, record.numAvailable());
   // 1 remaining, bought at $2.00
-  EXPECT_EQ(2.0, record.unsoldCost());
+  EXPECT_DOUBLE_EQ(2.0, record.unsoldCost());
 }
 
 /**
@@ -142,10 +142,10 @@ TEST(ItemRecordTest, SingleBuySellNegativeProfitTest)
   record.sell(4, 2.0);
 
   // assert
-  EXPECT_EQ(-4.0, record.profit());
+  EXPECT_DOUBLE_EQ(-4.0, record.profit());
   EXPECT_EQ(1, record.numAvailable());
   // 1 remaining, bought at $2.00
-  EXPECT_EQ(3.0, record.unsoldCost());
+  EXPECT_DOUBLE_EQ(3.0, record.unsoldCost());
 }
 
 /**
@@ -167,7 +167,7 @@ TEST(ItemRecordTest, SampleProblemTest)
   record.sell(4, 3.0);
 
   // assert
-  EXPECT_DOUBLE_EQ(4, record.numAvailable());
+  EXPECT_EQ(4, record.numAvailable());
   EXPECT_DOUBLE_EQ(8.0, record.profit());
   EXPECT_DOUBLE_EQ(6.0, record.unsoldCost());
 }

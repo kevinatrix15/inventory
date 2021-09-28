@@ -58,7 +58,7 @@ class Inventory
    */
   void sell(const string& sku, const size_t requestedQty, const double price)
   {
-    if (m_inventory.count(sku) == 0 || m_inventory[sku].numAvailable() <= 0) {
+    if (m_inventory.count(sku) == 0 || m_inventory[sku].numAvailable() == 0) {
       cerr << "No inventory available of SKU " << sku << " to sell." << endl;
       return;
     }

@@ -1,5 +1,6 @@
 #pragma once
 
+#include <cassert>
 #include <exception>
 
 /**
@@ -68,9 +69,12 @@ class ItemRecord
    *
    * @return The available inventory.
    */
-  int numAvailable() const
+  size_t numAvailable() const
   {
-    return static_cast<int>(m_numBought) - static_cast<int>(m_numSold);
+    // ensure we don't overflow (i.e., wrap around) by making an unsigned type
+    // negative
+    assert(m_numBought >= m_numSold);
+    return m_numBought - m_numSold;
   }
 
   /**
@@ -91,7 +95,7 @@ class ItemRecord
    */
   double unsoldCost() const
   {
-    return (this->numAvailable() * m_avgPurchasePrice);
+    return (static_cast<double>(this->numAvailable()) * m_avgPurchasePrice);
   }
 
   /**
