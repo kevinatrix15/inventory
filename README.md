@@ -1,7 +1,7 @@
 # Instructions:
 ## Building:
   * Find and open the Inventory.sln file in VisualStudio
-    - NOTE: Requires at least C++ 2017 capability
+    - NOTE: Requires at least ISO C++ 2017 capability
   * Build the Inventory project within Visual Studio
 
 ## Running:
@@ -32,7 +32,7 @@ functions:
 
 No additional public methods were added to this class in order to keep the
 exposed interface simple. It is composed of a map which stores an item record
-for each item.
+for each item for efficient accessing of ItemRecords by SKU.
 
 ### Assumptions / Edge Cases
   * Sell of an unregistered item / out of stock item- Report a warning message to
@@ -92,8 +92,3 @@ include the following:
     the same N. Additionally, this cost is incurred in constant time at each
     transaction, so the perceived cost when queried is O(1).
   * The memory requirement is now O(1) for both purchase and sell transactions.
-
-### Future Considerations
-
-
-  * Configure with CMake for portability

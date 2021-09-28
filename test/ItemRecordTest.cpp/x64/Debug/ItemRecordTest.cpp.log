@@ -1,4 +1,8 @@
 ﻿  InventoryTest.cpp
   ItemRecordTest.cpp
+  Running Code Analysis for C/C++...
   Generating Code...
   ItemRecordTest.cpp.vcxproj -> C:\work\ANSYSDev\source\personal-dev\Inventory\x64\Debug\Inventory.Test.exe
+C:\work\ANSYSDev\source\personal-dev\Inventory\packages\Microsoft.googletest.v140.windesktop.msvcstl.static.rt-dyn.1.8.1.3\build\native\include\gtest\internal\gtest-port.h(1804): warning C26495: Variable 'testing::internal::Mutex::owner_thread_id_' is uninitialized. Always initialize a member variable (type.6).
+C:\work\ANSYSDev\source\personal-dev\Inventory\packages\Microsoft.googletest.v140.windesktop.msvcstl.static.rt-dyn.1.8.1.3\build\native\include\gtest\internal\gtest-port.h(1804): warning C26812: The enum type 'testing::internal::Mutex::StaticConstructorSelector' is unscoped. Prefer 'enum class' over 'enum' (Enum.3).
+C:\work\ANSYSDev\source\personal-dev\Inventory\packages\Microsoft.googletest.v140.windesktop.msvcstl.static.rt-dyn.1.8.1.3\build\native\include\gtest\gtest-test-part.h(62): warning C26812: The enum type 'testing::TestPartResult::Type' is unscoped. Prefer 'enum class' over 'enum' (Enum.3).
